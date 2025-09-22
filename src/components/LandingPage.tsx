@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { GoogleLogin } from '@react-oauth/google';
+import { config } from '../config';
 import './LandingPage.css';
 
 interface LandingPageProps {
@@ -46,7 +47,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
       }
 
       // Send Google user info to backend
-      const response = await fetch('http://localhost:5001/api/google-login', {
+      const response = await fetch(`${config.API_URL}/api/google-login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

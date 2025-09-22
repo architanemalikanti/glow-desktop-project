@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
+import { config } from '../config';
 import CodeBlock from './CodeBlock';
 import ChatSidebar from './ChatSidebar';
 import './NewChatInterface.css';
@@ -98,7 +99,7 @@ const NewChatInterface: React.FC<NewChatInterfaceProps> = ({ currentUser, onLogo
     const fetchUserGreeting = async () => {
       if (currentUser?.username) {
         try {
-          const response = await fetch(`http://localhost:5001/api/user-greeting/${currentUser.username}`);
+          const response = await fetch(`${config.API_URL}/api/user-greeting/${currentUser.username}`);
           const data = await response.json();
           
           if (data.success) {
@@ -127,7 +128,7 @@ const NewChatInterface: React.FC<NewChatInterfaceProps> = ({ currentUser, onLogo
 
   const loadConversation = async (convId: string) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/conversations/${convId}`);
+      const response = await fetch(`${config.API_URL}/api/conversations/${convId}`);
       const data = await response.json();
       
       if (data.conversation) {
@@ -193,7 +194,7 @@ const NewChatInterface: React.FC<NewChatInterfaceProps> = ({ currentUser, onLogo
 
     // Call streaming backend API
     try {
-      const response = await fetch('http://localhost:5001/api/chatOpenAI', {
+      const response = await fetch(`${config.API_URL}/api/chatOpenAI`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
