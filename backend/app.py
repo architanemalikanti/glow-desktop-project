@@ -46,6 +46,14 @@ print(f"🐘 Connecting to PostgreSQL: {DATABASE_URL}")
 # Initialize database
 db.init_app(app)
 
+# Create all database tables
+with app.app_context():
+    try:
+        db.create_all()
+        print("✅ Database tables created successfully!")
+    except Exception as e:
+        print(f"⚠️ Database table creation failed: {str(e)}")
+
 # Initialize SocketIO with CORS support
 if os.getenv('FLASK_ENV') == 'development':
     socketio = SocketIO(app, cors_allowed_origins="*", logger=True, engineio_logger=False)
@@ -1595,7 +1603,10 @@ def google_login():
         
     except Exception as e:
         db.session.rollback()
-        return jsonify({'error': str(e)}), 500
+        print(f"❌ Google login error: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': f'Login failed: {str(e)}'}), 500
 
 @app.route('/api/logout', methods=['POST'])
 def logout():
