@@ -799,7 +799,7 @@ MATH FORMATTING RULES:
 When writing mathematical expressions, use proper LaTeX formatting:
 - Inline math: Use $...$ for expressions within text (e.g., "The value $x^2 + 1$ is...")
 - Block math: Use $$...$$ for centered equations on their own lines
-- Spacing: Use \, for small spaces (e.g., $\int f(x) \, dx$)
+        - Spacing: Use \\, for small spaces (e.g., $\\int f(x) \\, dx$)
 - Greek letters: \alpha, \beta, \gamma, etc.
 - Fractions: \frac{a}{b}
 - Roots: \sqrt{x} or \sqrt[n]{x}
