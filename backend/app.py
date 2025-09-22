@@ -27,6 +27,7 @@ allowed_origins = [
     frontend_url,
     'http://localhost:3000',  # Development
     'https://localhost:3000',  # Development HTTPS
+    'https://glow-desktop-project.vercel.app',  # Production frontend
 ]
 
 # Only allow all origins in development
