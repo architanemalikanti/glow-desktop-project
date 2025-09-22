@@ -3,6 +3,7 @@ import { Brain, Star, Quote, Home, Search, User, X, Clock, Lock, LogOut, Menu, U
 import { motion } from 'framer-motion';
 import { useNavigate, useParams } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
+import { config } from '../config';
 import ChatSidebar from './ChatSidebar';
 import './ProfilePage.css';
 
@@ -133,7 +134,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
   // Function to get a replacement image
   const getReplacementImage = async (excludeImages: string[]): Promise<PersonalityImage | null> => {
     try {
-      const response = await fetch(`http://localhost:5001/api/replacement-image?exclude=${excludeImages.join(',')}`);
+      const response = await fetch(`${config.API_URL}/api/replacement-image?exclude=${excludeImages.join(',')}`);
       const data = await response.json();
       if (data.success && data.replacement_image) {
         return data.replacement_image;
@@ -160,7 +161,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
       const memoryToDelete = memories.find(m => m.id === memoryId);
       const memoryText = memoryToDelete ? memoryToDelete.fact.substring(0, 50) + '...' : 'memory';
       
-      const response = await fetch(`http://localhost:5001/api/memories/${memoryId}`, {
+      const response = await fetch(`${config.API_URL}/api/memories/${memoryId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -223,7 +224,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
       // For memory images, hide permanently in database
       const memoryId = imageKey.replace('memory-', '');
       try {
-        const response = await fetch('http://localhost:5001/api/hide-memory', {
+        const response = await fetch('${config.API_URL}/api/hide-memory', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -314,7 +315,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
     try {
       setProfileLoading(true);
       console.log('🔄 Fetching user profile...', { targetUsername, currentUserId });
-      const response = await fetch(`http://localhost:5001/api/user-profile/${targetUsername}?user_id=${currentUserId}`);
+      const response = await fetch(`${config.API_URL}/api/user-profile/${targetUsername}?user_id=${currentUserId}`);
       const data = await response.json();
       
       if (data.success) {
@@ -338,7 +339,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
   // Fetch user's display name for profile title
   const fetchDisplayName = async (username: string) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/user-greeting/${username}`);
+      const response = await fetch(`${config.API_URL}/api/user-greeting/${username}`);
       const data = await response.json();
       
       if (data.success) {
@@ -362,7 +363,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
   const fetchMemories = async () => {
     try {
       setMemoriesLoading(true);
-      const response = await fetch(`http://localhost:5001/api/memories?user_id=${targetUsername}&current_user_id=${currentUserId}`);
+      const response = await fetch(`${config.API_URL}/api/memories?user_id=${targetUsername}&current_user_id=${currentUserId}`);
       const data = await response.json();
           console.log('🧠 Memories API response:', data); // Debug log
           console.log('🧠 Total memories fetched:', data.memories ? data.memories.length : 0);
@@ -450,7 +451,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
       setSongLoading(true);
       // Add timestamp to prevent caching and ensure fresh song each time
       const timestamp = Date.now();
-      const response = await fetch(`http://localhost:5001/api/user-song/${targetUsername}?t=${timestamp}`, {
+      const response = await fetch(`${config.API_URL}/api/user-song/${targetUsername}?t=${timestamp}`, {
         cache: 'no-cache',
         headers: {
           'Cache-Control': 'no-cache'
@@ -501,7 +502,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
     console.log('🔌 Connecting to WebSocket for real-time memory updates...');
     
     // Initialize socket connection
-    socket.current = io('http://localhost:5001', {
+    socket.current = io('${config.API_URL}', {
       transports: ['websocket', 'polling']
     });
 
@@ -654,7 +655,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
     setFollowActionLoading(true);
     
     try {
-      const response = await fetch('http://localhost:5001/api/send-follow-request', {
+      const response = await fetch('${config.API_URL}/api/send-follow-request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -701,7 +702,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
     setFollowActionLoading(true);
     
     try {
-      const response = await fetch('http://localhost:5001/api/cancel-follow-request', {
+      const response = await fetch('${config.API_URL}/api/cancel-follow-request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -743,7 +744,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
   // Handle logout
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/logout', {
+      const response = await fetch('${config.API_URL}/api/logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Home, Search, User, UserPlus, UserCheck, Clock, X, Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { config } from '../config';
 import ChatSidebar from './ChatSidebar';
 import './ExplorePage.css';
 
@@ -50,7 +51,7 @@ const ExplorePage: React.FC<ExplorePageProps> = ({ currentUser }) => {
 
   const fetchFollowRequests = async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/follow-requests?user_id=${currentUserId}`);
+      const response = await fetch(`${config.API_URL}/api/follow-requests?user_id=${currentUserId}`);
       const data = await response.json();
       
       if (data.success) {
@@ -70,7 +71,7 @@ const ExplorePage: React.FC<ExplorePageProps> = ({ currentUser }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:5001/api/search-users?username=${encodeURIComponent(username)}&user_id=${currentUserId}`
+        `${config.API_URL}/api/search-users?username=${encodeURIComponent(username)}&user_id=${currentUserId}`
       );
       const data = await response.json();
       
@@ -86,7 +87,7 @@ const ExplorePage: React.FC<ExplorePageProps> = ({ currentUser }) => {
 
   const sendFollowRequest = async (username: string) => {
     try {
-      const response = await fetch('http://localhost:5001/api/send-follow-request', {
+      const response = await fetch('${config.API_URL}/api/send-follow-request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -116,7 +117,7 @@ const ExplorePage: React.FC<ExplorePageProps> = ({ currentUser }) => {
 
   const respondToFollowRequest = async (requestId: string, action: 'accept' | 'decline') => {
     try {
-      const response = await fetch('http://localhost:5001/api/respond-follow-request', {
+      const response = await fetch('${config.API_URL}/api/respond-follow-request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

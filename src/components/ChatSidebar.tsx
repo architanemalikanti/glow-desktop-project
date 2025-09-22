@@ -115,7 +115,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     
     setNotificationsLoading(true);
     try {
-      const response = await fetch(`http://localhost:5001/api/follow-requests?user_id=${currentUser.username}`);
+      const response = await fetch(`${config.API_URL}/api/follow-requests?user_id=${currentUser.username}`);
       if (response.ok) {
         const data = await response.json();
         setFollowRequests(data.follow_requests || []);
@@ -139,7 +139,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
   const respondToFollowRequest = async (requestId: string, action: 'accept' | 'decline') => {
     try {
-      const response = await fetch('http://localhost:5001/api/respond-follow-request', {
+      const response = await fetch(`${config.API_URL}/api/respond-follow-request`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -188,7 +188,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
   const handleDeleteConversation = async (conversationId: string) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/conversations/${conversationId}`, {
+      const response = await fetch(`${config.API_URL}/api/conversations/${conversationId}`, {
         method: 'DELETE',
       });
 
@@ -222,7 +222,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     if (!newTitle.trim()) return;
 
     try {
-      const response = await fetch(`http://localhost:5001/api/conversations/${conversationId}`, {
+      const response = await fetch(`${config.API_URL}/api/conversations/${conversationId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, UserCheck, UserX, User } from 'lucide-react';
+import { config } from '../config';
 import './NotificationsSidebar.css';
 
 interface FollowRequest {
@@ -35,7 +36,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({
   const fetchFollowRequests = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5001/api/follow-requests?user_id=${currentUser.username}`);
+      const response = await fetch(`${config.API_URL}/api/follow-requests?user_id=${currentUser.username}`);
       if (response.ok) {
         const data = await response.json();
         setFollowRequests(data.requests || []);
@@ -49,7 +50,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({
 
   const respondToFollowRequest = async (requestId: string, action: 'accept' | 'decline') => {
     try {
-      const response = await fetch('http://localhost:5001/api/respond-follow-request', {
+      const response = await fetch('${config.API_URL}/api/respond-follow-request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
