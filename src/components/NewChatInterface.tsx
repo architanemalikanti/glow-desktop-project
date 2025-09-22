@@ -468,7 +468,7 @@ const NewChatInterface: React.FC<NewChatInterfaceProps> = ({ currentUser, onLogo
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 20000);
 
-      const response = await fetch('http://localhost:5001/api/transcribe', {
+      const response = await fetch(`${config.API_URL}/api/transcribe`, {
         method: 'POST',
         body: formData,
         signal: controller.signal
@@ -533,7 +533,7 @@ const NewChatInterface: React.FC<NewChatInterfaceProps> = ({ currentUser, onLogo
 
     try {
       // First, update the message in the database
-      const response = await fetch(`http://localhost:5001/api/messages/${editingMessageId}`, {
+      const response = await fetch(`${config.API_URL}/api/messages/${editingMessageId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -568,7 +568,7 @@ const NewChatInterface: React.FC<NewChatInterfaceProps> = ({ currentUser, onLogo
           setIsTyping(true);
           
           try {
-            const aiResponse = await fetch('http://localhost:5001/api/chatOpenAI', {
+            const aiResponse = await fetch(`${config.API_URL}/api/chatOpenAI`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

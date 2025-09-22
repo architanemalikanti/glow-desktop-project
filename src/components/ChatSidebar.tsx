@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, User, X, MessageSquare, LogOut, Heart, ArrowLeft, UserCheck, UserX, MoreHorizontal, Trash2, Edit2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { config } from '../config';
 import './ChatSidebar.css';
 
 interface Conversation {
@@ -63,7 +64,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
     try {
       setLoading(true);
       const userId = currentUser?.username || 'archu'; // Use actual logged-in user
-      const response = await fetch(`http://localhost:5001/api/conversations?user_id=${userId}`);
+      const response = await fetch(`${config.API_URL}/api/conversations?user_id=${userId}`);
       const data = await response.json();
       
       if (data.success) {
