@@ -520,35 +520,70 @@ def get_memories():
         print(f"🎨 Combined themes: {combined_themes_count}")
         
         personality_images = []
+        used_image_paths = set()  # Track used images to prevent duplicates
         theme_entries = sorted(combined_themes_count.items(), key=lambda x: x[1], reverse=True)
+        
+        # Enhanced function to get unique images
+        def get_unique_images_from_theme(theme, count, max_attempts=20):
+            """Get unique images from a theme folder, avoiding duplicates"""
+            unique_images = []
+            attempts = 0
+            while len(unique_images) < count and attempts < max_attempts:
+                image_path = get_random_image_from_folder(theme)
+                if image_path and image_path not in used_image_paths:
+                    unique_images.append(image_path)
+                    used_image_paths.add(image_path)
+                attempts += 1
+            return unique_images
         
         # Get more themes from memories+conversations, or fallback to comprehensive default themes if no themes found
         if not theme_entries:
             # Comprehensive default themes if user has no memories yet
             default_themes = ['Academics', 'Career', 'CS', 'GirlBoss', 'NYC', 'SF', 'Startup', 'LivingHer1989Era', 'SoftGirl', 'Indian', 'Tennis', 'Lawyer']
             for theme in default_themes:
-                # Get multiple images per theme to make profiles richer
-                for i in range(3):  # 3 images per theme
-                    image_path = get_random_image_from_folder(theme)
-                    if image_path:
-                        personality_images.append({
-                            'theme': theme,
-                            'image_path': image_path,
-                            'weight': 1
-                        })
+                # Get 4-6 unique images per theme to make profiles much richer
+                unique_images = get_unique_images_from_theme(theme, count=5)
+                for image_path in unique_images:
+                    personality_images.append({
+                        'theme': theme,
+                        'image_path': image_path,
+                        'weight': 1
+                    })
         else:
             # Use all available themes from memories (not just top 5)
             for theme, weight in theme_entries:
-                # Get multiple images per theme based on weight
-                images_per_theme = min(max(2, weight), 4)  # 2-4 images per theme based on weight
-                for i in range(images_per_theme):
-                    image_path = get_random_image_from_folder(theme)
-                    if image_path:
-                        personality_images.append({
-                            'theme': theme,
-                            'image_path': image_path,
-                            'weight': weight
-                        })
+                # Get more images per theme based on weight (3-8 images)
+                images_per_theme = min(max(3, weight * 2), 8)  # 3-8 images per theme based on weight
+                unique_images = get_unique_images_from_theme(theme, count=images_per_theme)
+                for image_path in unique_images:
+                    personality_images.append({
+                        'theme': theme,
+                        'image_path': image_path,
+                        'weight': weight
+                    })
+        
+        # Fill remaining slots with diverse themes to reach 50+ images
+        all_available_themes = ['Academics', 'Career', 'CS', 'GirlBoss', 'NYC', 'SF', 'Startup', 'LivingHer1989Era', 'SoftGirl', 'Indian', 'Tennis', 'Lawyer']
+        target_image_count = 50  # Target for rich profiles
+        
+        # Add more images from all themes if we haven't reached our target
+        while len(personality_images) < target_image_count:
+            for theme in all_available_themes:
+                if len(personality_images) >= target_image_count:
+                    break
+                # Get 1-2 more unique images from each theme
+                additional_images = get_unique_images_from_theme(theme, count=2)
+                for image_path in additional_images:
+                    personality_images.append({
+                        'theme': theme,
+                        'image_path': image_path,
+                        'weight': 0.5  # Lower weight for filler images
+                    })
+                    if len(personality_images) >= target_image_count:
+                        break
+        
+        print(f"🎨 Generated {len(personality_images)} unique personality images for {target_user_id}")
+        print(f"🔄 Used {len(used_image_paths)} unique image paths (no duplicates)")
         
         return jsonify({
             'success': True,
