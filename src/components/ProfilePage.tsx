@@ -224,7 +224,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
       // For memory images, hide permanently in database
       const memoryId = imageKey.replace('memory-', '');
       try {
-        const response = await fetch('${config.API_URL}/api/hide-memory', {
+        const response = await fetch(`${config.API_URL}/api/hide-memory`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -502,7 +502,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
     console.log('🔌 Connecting to WebSocket for real-time memory updates...');
     
     // Initialize socket connection
-    socket.current = io('${config.API_URL}', {
+    socket.current = io(`${config.API_URL}`, {
       transports: ['websocket', 'polling']
     });
 
@@ -655,7 +655,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
     setFollowActionLoading(true);
     
     try {
-      const response = await fetch('${config.API_URL}/api/send-follow-request', {
+      const response = await fetch(`${config.API_URL}/api/send-follow-request`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -702,7 +702,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
     setFollowActionLoading(true);
     
     try {
-      const response = await fetch('${config.API_URL}/api/cancel-follow-request', {
+      const response = await fetch(`${config.API_URL}/api/cancel-follow-request`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -744,7 +744,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onLogout, currentUser, sideba
   // Handle logout
   const handleLogout = async () => {
     try {
-      const response = await fetch('${config.API_URL}/api/logout', {
+      const response = await fetch(`${config.API_URL}/api/logout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

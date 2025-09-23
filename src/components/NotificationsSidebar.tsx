@@ -50,7 +50,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({
 
   const respondToFollowRequest = async (requestId: string, action: 'accept' | 'decline') => {
     try {
-      const response = await fetch('${config.API_URL}/api/respond-follow-request', {
+      const response = await fetch(`${config.API_URL}/api/respond-follow-request`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -87,7 +87,7 @@ const ExplorePage: React.FC<ExplorePageProps> = ({ currentUser }) => {
 
   const sendFollowRequest = async (username: string) => {
     try {
-      const response = await fetch('${config.API_URL}/api/send-follow-request', {
+      const response = await fetch(`${config.API_URL}/api/send-follow-request`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ const ExplorePage: React.FC<ExplorePageProps> = ({ currentUser }) => {
 
   const respondToFollowRequest = async (requestId: string, action: 'accept' | 'decline') => {
     try {
-      const response = await fetch('${config.API_URL}/api/respond-follow-request', {
+      const response = await fetch(`${config.API_URL}/api/respond-follow-request`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
