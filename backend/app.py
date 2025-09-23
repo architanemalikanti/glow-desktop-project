@@ -16,7 +16,12 @@ try:
 except ImportError:
     # Fallback values if config.py doesn't exist
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', 'your_openai_api_key_here')
-    DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql+psycopg://architanemalikanti@localhost:5432/glow_db')
+    raw_db_url = os.getenv('DATABASE_URL', 'postgresql+psycopg://architanemalikanti@localhost:5432/glow_db')
+    # Ensure the URL uses psycopg3 format
+    if raw_db_url.startswith('postgresql://'):
+        DATABASE_URL = raw_db_url.replace('postgresql://', 'postgresql+psycopg://', 1)
+    else:
+        DATABASE_URL = raw_db_url
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key')
 
 app = Flask(__name__)
