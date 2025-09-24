@@ -132,17 +132,6 @@ def health_check():
         "message": "Backend is running smoothly! ✨"
     })
 
-@app.route('/assets/<path:filename>')
-def serve_assets(filename):
-    """Serve static assets from src/assets directory"""
-    from flask import send_from_directory
-    try:
-        # Path to the src/assets directory
-        assets_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'assets')
-        return send_from_directory(assets_path, filename)
-    except Exception as e:
-        print(f"Error serving asset {filename}: {str(e)}")
-        return jsonify({"error": "Asset not found"}), 404
 
 def extract_memory_from_response(response_content):
     """
@@ -300,25 +289,25 @@ import os
 import random
 
 def get_random_image_from_folder(folder_name):
-    """Get a random image from the specified src/assets images folder"""
+    """Get a random image from the specified public images folder"""
     try:
-        # Path to the src/assets images folder (where all the actual images are)
-        assets_images_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'assets', folder_name)
+        # Path to the public images folder (standard web serving)
+        public_images_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'public', 'images', folder_name)
         
-        if not os.path.exists(assets_images_path):
+        if not os.path.exists(public_images_path):
             return None
             
         # Get all image files
         image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
-        images = [f for f in os.listdir(assets_images_path) 
+        images = [f for f in os.listdir(public_images_path) 
                  if any(f.lower().endswith(ext) for ext in image_extensions)]
         
         if not images:
             return None
             
-        # Return random image with assets URL path for frontend
+        # Return random image with public URL path
         selected_image = random.choice(images)
-        return f"/assets/{folder_name}/{selected_image}"
+        return f"/images/{folder_name}/{selected_image}"
         
     except Exception as e:
         print(f"Error getting random image from {folder_name}: {str(e)}")
@@ -360,25 +349,25 @@ def get_replacement_image():
         theme_entries = sorted(memory_themes_count.items(), key=lambda x: x[1], reverse=True)
         
         for theme, weight in theme_entries:
-            # Get all images from this theme folder (using src/assets)
-            assets_images_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'assets', theme)
+            # Get all images from this theme folder (using public/images)
+            public_images_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'public', 'images', theme)
             
-            if os.path.exists(assets_images_path):
+            if os.path.exists(public_images_path):
                 image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
-                available_images = [f for f in os.listdir(assets_images_path) 
+                available_images = [f for f in os.listdir(public_images_path) 
                                  if any(f.lower().endswith(ext) for ext in image_extensions)]
                 
                 # Filter out excluded images
                 unused_images = []
                 for img in available_images:
-                    img_path = f"/assets/{theme}/{img}"
+                    img_path = f"/images/{theme}/{img}"
                     if img_path not in excluded_images:
                         unused_images.append(img)
                 
                 if unused_images:
                     # Return a random unused image from this theme
                     selected_image = random.choice(unused_images)
-                    image_path = f"/assets/{theme}/{selected_image}"
+                    image_path = f"/images/{theme}/{selected_image}"
                     
                     replacement_image = {
                         'theme': theme,
