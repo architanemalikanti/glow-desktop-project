@@ -35,8 +35,8 @@ const CustomCursor: React.FC = () => {
     <div
       className={`custom-cursor ${isHovering ? 'hover' : ''}`}
       style={{
-        left: `${position.x - 12}px`,
-        top: `${position.y - 12}px`,
+        left: `${position.x}px`,
+        top: `${position.y}px`,
       }}
     />
   );

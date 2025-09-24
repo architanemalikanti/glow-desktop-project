@@ -132,6 +132,18 @@ def health_check():
         "message": "Backend is running smoothly! ✨"
     })
 
+@app.route('/assets/<path:filename>')
+def serve_assets(filename):
+    """Serve static assets from src/assets directory"""
+    from flask import send_from_directory
+    try:
+        # Path to the src/assets directory
+        assets_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'assets')
+        return send_from_directory(assets_path, filename)
+    except Exception as e:
+        print(f"Error serving asset {filename}: {str(e)}")
+        return jsonify({"error": "Asset not found"}), 404
+
 def extract_memory_from_response(response_content):
     """
     Extract memory from GPT response if it contains [MEMORY: ...] format
@@ -288,25 +300,25 @@ import os
 import random
 
 def get_random_image_from_folder(folder_name):
-    """Get a random image from the specified public images folder"""
+    """Get a random image from the specified src/assets images folder"""
     try:
-        # Path to the public images folder
-        public_images_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'public', 'images', folder_name)
+        # Path to the src/assets images folder (where all the actual images are)
+        assets_images_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'assets', folder_name)
         
-        if not os.path.exists(public_images_path):
+        if not os.path.exists(assets_images_path):
             return None
             
         # Get all image files
         image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
-        images = [f for f in os.listdir(public_images_path) 
+        images = [f for f in os.listdir(assets_images_path) 
                  if any(f.lower().endswith(ext) for ext in image_extensions)]
         
         if not images:
             return None
             
-        # Return random image with public URL path
+        # Return random image with assets URL path for frontend
         selected_image = random.choice(images)
-        return f"/images/{folder_name}/{selected_image}"
+        return f"/assets/{folder_name}/{selected_image}"
         
     except Exception as e:
         print(f"Error getting random image from {folder_name}: {str(e)}")
