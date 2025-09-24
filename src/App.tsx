@@ -7,6 +7,7 @@ import NewChatInterface from './components/NewChatInterface';
 import ExplorePage from './components/ExplorePage';
 import ProfilePage from './components/ProfilePage';
 import PeopleSearch from './components/PeopleSearch';
+import CustomCursor from './components/CustomCursor';
 import './App.css';
 
 
@@ -68,6 +69,7 @@ function App() {
     return (
       <GoogleOAuthProvider clientId={clientId}>
         <div className="App">
+          <CustomCursor />
           <LandingPage onLogin={handleLogin} />
         </div>
       </GoogleOAuthProvider>
@@ -79,6 +81,7 @@ function App() {
     <GoogleOAuthProvider clientId={clientId}>
       <Router>
         <div className="App">
+          <CustomCursor />
           <Routes>
             <Route path="/" element={<Navigate to="/chat" replace />} />
             <Route path="/chat" element={
