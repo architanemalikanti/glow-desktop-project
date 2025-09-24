@@ -2,36 +2,33 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor: none !important; /* Hide default cursor to show custom cursor */
 }
 
 /* Custom circular cursor */
 .custom-cursor {
   position: fixed;
-  width: 26px;
-  height: 26px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  width: 30px;
+  height: 30px;
+  background: rgba(0, 123, 255, 0.8); /* More visible blue background for testing */
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 3px solid rgba(255, 255, 255, 0.9);
   pointer-events: none;
-  z-index: 9999;
+  z-index: 99999; /* Higher z-index */
   transform: translate(-50%, -50%);
   transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: 
-    0 6px 25px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    0 0 15px rgba(255, 255, 255, 0.2);
+    0 4px 20px rgba(0, 123, 255, 0.5),
+    0 0 20px rgba(0, 123, 255, 0.3);
 }
 
 .custom-cursor.hover {
-  transform: translate(-50%, -50%) scale(1.6);
-  background: rgba(255, 255, 255, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.6);
+  transform: translate(-50%, -50%) scale(1.5);
+  background: rgba(255, 0, 123, 0.8); /* Pink on hover for testing */
+  border: 3px solid rgba(255, 255, 255, 1);
   box-shadow: 
-    0 8px 35px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 0 25px rgba(255, 255, 255, 0.4);
+    0 6px 30px rgba(255, 0, 123, 0.6),
+    0 0 30px rgba(255, 0, 123, 0.4);
 }
 
 body {
@@ -40,7 +37,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #ffffff;
   min-height: 100vh;
+  cursor: none; /* Hide default cursor to show custom cursor */
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
