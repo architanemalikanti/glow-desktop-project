@@ -8,28 +8,28 @@
 /* Custom circular cursor */
 .custom-cursor {
   position: fixed;
-  width: 30px;
-  height: 30px;
-  background: rgba(0, 123, 255, 0.8); /* More visible blue background for testing */
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.6);
   pointer-events: none;
-  z-index: 99999; /* Higher z-index */
+  z-index: 99999;
   transform: translate(-50%, -50%);
   transition: background 0.15s ease, border 0.15s ease, box-shadow 0.15s ease;
   /* No transition on transform to keep cursor responsive */
   box-shadow: 
-    0 4px 20px rgba(0, 123, 255, 0.5),
-    0 0 20px rgba(0, 123, 255, 0.3);
+    0 4px 15px rgba(0, 0, 0, 0.1),
+    0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .custom-cursor.hover {
-  transform: translate(-50%, -50%) scale(1.5);
-  background: rgba(255, 0, 123, 0.8); /* Pink on hover for testing */
-  border: 3px solid rgba(255, 255, 255, 1);
+  transform: translate(-50%, -50%) scale(1.4);
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.8);
   box-shadow: 
-    0 6px 30px rgba(255, 0, 123, 0.6),
-    0 0 30px rgba(255, 0, 123, 0.4);
+    0 6px 25px rgba(0, 0, 0, 0.15),
+    0 0 20px rgba(255, 255, 255, 0.5);
   transition: transform 0.2s ease, background 0.15s ease, border 0.15s ease, box-shadow 0.15s ease;
 }
 

@@ -5,10 +5,8 @@ const CustomCursor: React.FC = () => {
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    console.log('CustomCursor component mounted'); // Debug log
     const updatePosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
-      console.log('Mouse position:', e.clientX, e.clientY); // Debug log
     };
 
     const handleMouseEnter = () => setIsHovering(true);
