@@ -353,32 +353,32 @@ def get_replacement_image():
         
         # Get all available themes if no memory themes
         if not memory_themes_count:
-            all_themes = ['NYC', 'SF', 'Startup', 'CS', 'Career', 'Academics', 'GirlBoss', 'LivingHer1989Era', 'SoftGirl', 'Indian']
+            all_themes = ['Academics', 'Career', 'CS', 'GirlBoss', 'NYC', 'SF', 'Startup', 'LivingHer1989Era', 'SoftGirl', 'Indian', 'Tennis', 'Lawyer']
             memory_themes_count = {theme: 1 for theme in all_themes}
         
         # Try to find a replacement image from user's themes
         theme_entries = sorted(memory_themes_count.items(), key=lambda x: x[1], reverse=True)
         
         for theme, weight in theme_entries:
-            # Get all images from this theme folder
-            public_images_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'public', 'images', theme)
+            # Get all images from this theme folder (using src/assets)
+            assets_images_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'assets', theme)
             
-            if os.path.exists(public_images_path):
+            if os.path.exists(assets_images_path):
                 image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
-                available_images = [f for f in os.listdir(public_images_path) 
+                available_images = [f for f in os.listdir(assets_images_path) 
                                  if any(f.lower().endswith(ext) for ext in image_extensions)]
                 
                 # Filter out excluded images
                 unused_images = []
                 for img in available_images:
-                    img_path = f"/images/{theme}/{img}"
+                    img_path = f"/assets/{theme}/{img}"
                     if img_path not in excluded_images:
                         unused_images.append(img)
                 
                 if unused_images:
                     # Return a random unused image from this theme
                     selected_image = random.choice(unused_images)
-                    image_path = f"/images/{theme}/{selected_image}"
+                    image_path = f"/assets/{theme}/{selected_image}"
                     
                     replacement_image = {
                         'theme': theme,
